@@ -397,6 +397,23 @@ bool UdfpsSensor::readFd(const int fd) {
         return false;
     }
     return state > 0;
+
+}
+
+bool IsPathValid(const std::string& path) {
+  std::ifstream file(path);
+  return file.good();
+}
+
+std::string GetPollPath(const char** array) {
+  for (; *array != NULL; ++array) {
+    const char* path = *array;
+
+    if (IsPathValid(path))
+      return path;
+  }
+
+  return "";
 }
 
 }  // namespace implementation

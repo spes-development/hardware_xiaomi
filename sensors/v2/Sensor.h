@@ -126,6 +126,7 @@ class SysfsPollingOneShotSensor : public OneShotSensor {
 
 static const char* doubleTapPaths[] = {
   "/sys/class/touch/touch_dev/gesture_double_tap_state",
+  "/sys/devices/platform/soc/4a88000.i2c/i2c-1/1-0038/double_tap_pressed",
   NULL
 };
 static const char* doubleTapPathsEnable[] = {
@@ -146,6 +147,7 @@ class DoubleTapSensor : public SysfsPollingOneShotSensor {
 
 static const char* singleTapPaths[] = {
   "/sys/class/touch/touch_dev/gesture_single_tap_state",
+  "/sys/devices/platform/soc/4a88000.i2c/i2c-1/1-0038/single_tap_pressed",
   NULL
 };
 static const char* singleTapPathsEnable[] = {

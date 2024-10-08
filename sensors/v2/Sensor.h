@@ -124,34 +124,61 @@ class SysfsPollingOneShotSensor : public OneShotSensor {
     int mPollFd;
 };
 
+static const char* doubleTapPaths[] = {
+  "/sys/class/touch/touch_dev/gesture_double_tap_state",
+  NULL
+};
+static const char* doubleTapPathsEnable[] = {
+  "/sys/class/touch/touch_dev/gesture_double_tap_enabled",
+  NULL
+};
+
 class DoubleTapSensor : public SysfsPollingOneShotSensor {
   public:
     DoubleTapSensor(int32_t sensorHandle, ISensorsEventCallback* callback)
         : SysfsPollingOneShotSensor(
-                  sensorHandle, callback, "/sys/class/touch/touch_dev/gesture_double_tap_state",
-                  "/sys/class/touch/touch_dev/gesture_double_tap_enabled", "Double Tap Sensor",
+                  sensorHandle, callback, GetPollPath(doubleTapPaths),
+                  GetPollPath(doubleTapPathsEnable), "Double Tap Sensor",
                   "org.lineageos.sensor.double_tap",
                   static_cast<SensorType>(static_cast<int32_t>(SensorType::DEVICE_PRIVATE_BASE) +
                                           1)) {}
+};
+
+static const char* singleTapPaths[] = {
+  "/sys/class/touch/touch_dev/gesture_single_tap_state",
+  NULL
+};
+static const char* singleTapPathsEnable[] = {
+  "/sys/class/touch/touch_dev/gesture_single_tap_enabled",
+  NULL
 };
 
 class SingleTapSensor : public SysfsPollingOneShotSensor {
   public:
     SingleTapSensor(int32_t sensorHandle, ISensorsEventCallback* callback)
         : SysfsPollingOneShotSensor(
-                  sensorHandle, callback, "/sys/class/touch/touch_dev/gesture_single_tap_state",
-                  "/sys/class/touch/touch_dev/gesture_single_tap_enabled", "Single Tap Sensor",
+                  sensorHandle, callback, GetPollPath(singleTapPaths), 
+                  GetPollPath(singleTapPathsEnable), "Single Tap Sensor",
                   "org.lineageos.sensor.single_tap",
                   static_cast<SensorType>(static_cast<int32_t>(SensorType::DEVICE_PRIVATE_BASE) +
                                           2)) {}
+};
+
+static const char* udfpsPaths[] = {
+  "/sys/class/touch/touch_dev/fod_press_status",
+  NULL
+};
+static const char* udfpsPathsEnable[] = {
+  "/sys/class/touch/touch_dev/fod_longpress_gesture_enabled",
+  NULL
 };
 
 class UdfpsSensor : public SysfsPollingOneShotSensor {
   public:
     UdfpsSensor(int32_t sensorHandle, ISensorsEventCallback* callback)
         : SysfsPollingOneShotSensor(
-                  sensorHandle, callback, "/sys/class/touch/touch_dev/fod_press_status",
-                  "/sys/class/touch/touch_dev/fod_longpress_gesture_enabled", "UDFPS Sensor",
+                  sensorHandle, callback, GetPollPath(udfpsPaths), 
+                  GetPollPath(udfpsPathsEnable), "UDFPS Sensor",
                   "org.lineageos.sensor.udfps",
                   static_cast<SensorType>(static_cast<int32_t>(SensorType::DEVICE_PRIVATE_BASE) +
                                           3)) {}

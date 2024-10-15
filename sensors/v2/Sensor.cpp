@@ -230,7 +230,9 @@ SysfsPollingOneShotSensor::SysfsPollingOneShotSensor(
     mSensorInfo.power = 0;
     mSensorInfo.flags |= SensorFlagBits::WAKE_UP;
 
-    mEnableStream.open(enablePath);
+    if (!enablePath.empty()) {
+        mEnableStream.open(enablePath);
+    }
 
     int rc;
 
@@ -280,7 +282,9 @@ void SysfsPollingOneShotSensor::activate(bool enable, bool notify, bool lock) {
     }
 
     if (mIsEnabled != enable) {
-        writeEnable(enable);
+        if (mEnableStream.is_open()) {
+            writeEnable(enable);
+        }
 
         mIsEnabled = enable;
 
